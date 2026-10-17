@@ -42,3 +42,45 @@ export const getUserById = (req: Request, res: Response) => {
 
     return res.status(200).json(user);
 };
+
+export const createUser = (req: Request, res: Response) => {
+    const { name, email, role } = req.body;
+
+    if (!name || !email || !role) {
+        return res.status(400).json({
+            message: 'Nombre, correo y rol son obligatorios'
+        });
+    }
+
+    const validRoles = ['estudiante', 'docente', 'administrador'];
+
+    if (!validRoles.includes(role)) {
+        return res.status(400).json({
+            message: 'El rol no es válido'
+        });
+    }
+
+    const emailExists = users.some(
+        user => user.email.toLowerCase() === String(email).toLowerCase()
+    );
+
+    if (emailExists) {
+        return res.status(409).json({
+            message: 'El correo ya está registrado'
+        });
+    }
+
+    const newUser: User = {
+        id: users.length
+            ? Math.max(...users.map(user => user.id)) + 1
+            : 1,
+        name,
+        email,
+        role,
+        status: 'activo'
+    };
+
+    users.push(newUser);
+
+    return res.status(201).json(newUser);
+};
