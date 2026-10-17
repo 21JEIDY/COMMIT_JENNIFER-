@@ -84,3 +84,53 @@ export const createUser = (req: Request, res: Response) => {
 
     return res.status(201).json(newUser);
 };
+export const updateUser = (req: Request, res: Response) => {
+    const user = users.find(user => user.id === Number(req.params.id));
+
+    if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const { role, status, password } = req.body;
+
+    if (role !== undefined) {
+        if (!['estudiante', 'docente', 'administrador'].includes(role)) {
+            return res.status(400).json({ message: 'El rol no es válido' });
+        }
+        user.role = role;
+    }
+
+    if (status !== undefined) {
+        if (!['activo', 'inactivo'].includes(status)) {
+            return res.status(400).json({ message: 'El estado no es válido' });
+        }
+        user.status = status;
+    }
+
+    if (password !== undefined &&
+        (typeof password !== 'string' || password.length < 8)) {
+        return res.status(400).json({
+            message: 'La contraseña debe tener al menos 8 caracteres'
+        });
+    }
+
+    return res.status(200).json({
+        message: 'Usuario actualizado correctamente',
+        user
+    });
+};
+
+export const deleteUser = (req: Request, res: Response) => {
+    const user = users.find(user => user.id === Number(req.params.id));
+
+    if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    user.status = 'inactivo';
+
+    return res.status(200).json({
+        message: 'Usuario desactivado correctamente',
+        user
+    });
+};
