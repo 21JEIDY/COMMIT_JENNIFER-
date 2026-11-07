@@ -4,7 +4,7 @@ interface Equipment {
     id: number;
     name: string;
     environmentId: number;
-    technicalStatus: 'operativo' | 'mantenimiento' | 'dañado';
+    technicalStatus: 'operativo' | 'mantenimiento' | 'daï¿½ado';
     location: string;
 }
 
@@ -45,18 +45,18 @@ export const createEquipment = (req: Request, res: Response) => {
         !location
     ) {
         return res.status(400).json({
-            message: 'El nombre, el ID del ambiente y la ubicación son obligatorios.'
+            message: 'El nombre, el ID del ambiente y la ubicaciï¿½n son obligatorios.'
         });
     }
 
-    const validStatuses = ['operativo', 'mantenimiento', 'dañado'];
+    const validStatuses = ['operativo', 'mantenimiento', 'daï¿½ado'];
 
     if (
         technicalStatus !== undefined &&
         !validStatuses.includes(technicalStatus)
     ) {
         return res.status(400).json({
-            message: 'El estado técnico debe ser operativo, mantenimiento o dañado.'
+            message: 'El estado tï¿½cnico debe ser operativo, mantenimiento o daï¿½ado.'
         });
     }
 
@@ -89,18 +89,18 @@ export const updateEquipment = (req: Request, res: Response) => {
 
     if (technicalStatus === undefined && location === undefined) {
         return res.status(400).json({
-            message: 'Debes enviar el estado técnico o la ubicación.'
+            message: 'Debes enviar el estado tï¿½cnico o la ubicaciï¿½n.'
         });
     }
 
-    const validStatuses = ['operativo', 'mantenimiento', 'dañado'];
+    const validStatuses = ['operativo', 'mantenimiento', 'daï¿½ado'];
 
     if (
         technicalStatus !== undefined &&
         !validStatuses.includes(technicalStatus)
     ) {
         return res.status(400).json({
-            message: 'El estado técnico debe ser operativo, mantenimiento o dañado.'
+            message: 'El estado tï¿½cnico debe ser operativo, mantenimiento o daï¿½ado.'
         });
     }
 
@@ -109,7 +109,7 @@ export const updateEquipment = (req: Request, res: Response) => {
         (typeof location !== 'string' || !location.trim())
     ) {
         return res.status(400).json({
-            message: 'La ubicación debe ser un texto válido.'
+            message: 'La ubicaciï¿½n debe ser un texto vï¿½lido.'
         });
     }
 
